@@ -11,7 +11,7 @@ const DataItemVis = props => {
   function generateData() {
     const output = [{ x: 0, y: 0 }, { x: 1, y: 5 }, { x: 2, y: 5 }, { x: 3, y: 5 }];
     for (let i = 4; i < 8; i += 1) {
-      output.push({ x: i, y: Math.random() * 10 })
+      output.push({ x: i, y: Math.random('stuff') * 10 })
     }
     output.push({ x: 8, y: 5 }, { x: 9, y: 5 }, { x: 10, y: 5 }, { x: 11, y: 10 })
     return output;
@@ -28,10 +28,10 @@ const DataItemVis = props => {
 
         <XAxis />
         <YAxis />
-        <LineSeries animation={'noWobble'} markStyle={{ stroke: "blue" }}
+        <LineMarkSeries animation={'wobbly'} markStyle={{ stroke: "blue" }}
           data={props.visData}
           curve={"curveBasis"}
-          color="red" />
+          color="lightblue" />
       </XYPlot>
       <button className="btn" onClick={() => { props.updateVisData(generateData()) }}>Update Data</button>
     </div>
