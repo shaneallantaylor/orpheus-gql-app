@@ -10,7 +10,7 @@ const Query = props => {
           <label>enter your query:</label><br></br>
           <input onChange={e => props.updateCodeInput(e.target.value)} type="text" placeholder="your query" id="query-field"></input>
         </div>
-        <button className="btn waves-effect waves-light" type="submit">run</button>
+        <button className="btn padding waves-effect waves-light" type="submit">run</button>
       </form>
       <input value={props.codeInput}></input>
     </div>

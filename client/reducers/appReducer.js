@@ -6,7 +6,8 @@ const initialState = {
   dataPointsValue: null,
   nestingDepthValue: null,
   networkLatency: null,
-  effectiveRuntime: null
+  effectiveRuntime: null,
+  visData: [],
 }
 
 const appReducer = (state = initialState, action) => {
@@ -46,6 +47,12 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         effectiveRuntime: action.payload
+      }
+
+    case types.UPDATE_VIS_DATA:
+      return {
+        ...state,
+        visData: action.payload
       }
 
     default:

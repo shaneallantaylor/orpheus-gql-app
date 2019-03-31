@@ -13,11 +13,13 @@ class QueryEditor extends React.Component {
   editorDidMount(editor, monaco) {
     // console.log('editorDidMount', editor);
     // editor.focus();
+    <MonacoEditor ref="monaco" />
   }
   onChange(newValue, e) {
     // console.log('onChange', newValue, e);
   }
   render() {
+
     return (
       <MonacoEditor
         height="100"

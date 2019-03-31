@@ -31,3 +31,8 @@ export const setEffectiveRuntime = (value) => ({
   type: types.SET_EFFECTIVE_RUNTIME,
   payload: value,
 });
+
+export const updateVisData = (value) => ({
+  type: types.UPDATE_VIS_DATA,
+  payload: value,
+});

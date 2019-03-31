@@ -1,0 +1,16 @@
+@import "./node_modules/react-vis/dist/style";
+
+.rv-gradient {
+  background: #84b5de;
+background: -moz-linear-gradient(left, #84b5de 0%, #cb5857 100%);
+background: -webkit-linear-gradient(left, #84b5de 0%,#cb5857 100%);
+background: linear-gradient(to right, #84b5de 0%,#cb5857 100%) !important;
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#84b5de', endColorstr='#cb5857',GradientType=1 );
+}
+
+.shane {
+  color: black;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 20px;
+}

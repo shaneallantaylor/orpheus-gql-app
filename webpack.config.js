@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CLIENT_DIR = path.resolve(__dirname, './client');
 const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
+const REACT_VIS_DIR = path.resolve(__dirname, './node_modules/react-vis/dist/styles')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
@@ -39,7 +40,16 @@ module.exports = {
         test: /\.css$/,
         include: MONACO_DIR,
         use: ['style-loader', 'css-loader'],
-      }
+      },
+      {
+        test: /\.scss$/,
+        include: REACT_VIS_DIR,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
     ]
   },
   devServer: {
