@@ -8,7 +8,7 @@
     "build": "webpack",
     "dev": "webpack-dev-server",
     "test": "jest",
-    "or": "node orpheus/app.js"
+    "or": "nodemon orpheus/app.js"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 const graphql = require('graphql');
 const graphqlDate = require('graphql-iso-date')
 const _ = require('lodash');
-const reqTracker = require ('../orpheus/trackResolver');
+const reqTracker = require('../orpheus/trackResolver');
 const pool = require('../model/database');
 
 // 3 current responsibilities - define types, define relationship between types, and define route queries
@@ -9,27 +9,27 @@ const pool = require('../model/database');
 // describe the object types in the schema; schema here defines the graph and the object types on the graph
 
 // desctructure Graph QL Object Type - grab this function from the graphql package, so we can store and use it inside this file
-const { 
-  GraphQLObjectType, 
-  GraphQLString, 
-  GraphQLSchema, 
-  GraphQLID, 
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLID,
   GraphQLBoolean,
-  GraphQLInt, 
+  GraphQLInt,
   GraphQLList,
-  GraphQLNonNull 
+  GraphQLNonNull
 } = graphql;
 
 const {
   GraphQLDate
 } = graphqlDate;
 
-const SpacecraftType = new GraphQLObjectType( {
+const SpacecraftType = new GraphQLObjectType({
   name: 'spacecraft',
   fields: () => ({
-    _id: {type: GraphQLID},
-    name: {type: GraphQLString},
-    launch_date: {type: GraphQLDate},
+    _id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    launch_date: { type: GraphQLDate },
     country: {
       type: CountryType,
       resolve(parent, args) {
@@ -37,12 +37,12 @@ const SpacecraftType = new GraphQLObjectType( {
         reqTracker.addEntry('country');
         console.log('country in spacecraft def', [parent._id]);
         return pool
-        .query('SELECT * FROM country WHERE _id = $1;', [parent._id])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'country');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM country WHERE _id = $1;', [parent._id])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'country');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
     agency: {
@@ -52,31 +52,31 @@ const SpacecraftType = new GraphQLObjectType( {
         reqTracker.addEntry('agency');
         console.log('agency in spacecraft def', parent._id);
         return pool
-        .query('SELECT * FROM agency WHERE _id = $1;', [parent._id])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'agency');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM agency WHERE _id = $1;', [parent._id])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'agency');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
-    planet:  {
+    planet: {
       type: PlanetType,
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('planet');
         console.log('planet in spacecraft def', [parent._id]);
         return pool
-        .query('SELECT * FROM planet WHERE _id = $1;', [parent._id])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'planet');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM planet WHERE _id = $1;', [parent._id])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'planet');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
-    mission_type: {type: GraphQLString},
-    success: {type: GraphQLBoolean},
+    mission_type: { type: GraphQLString },
+    success: { type: GraphQLBoolean },
     engine: {
       type: EngineType,
       resolve(parent, args) {
@@ -84,22 +84,22 @@ const SpacecraftType = new GraphQLObjectType( {
         reqTracker.addEntry('engine');
         console.log('engine in spacecraft def', [parent._id]);
         return pool
-        .query('SELECT * FROM engine WHERE _id = $1;', [parent._id])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'engine');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM engine WHERE _id = $1;', [parent._id])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'engine');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     }
   })
 });
 
-const AgencyType = new GraphQLObjectType( {
+const AgencyType = new GraphQLObjectType({
   name: 'agency',
   fields: () => ({
-    _id: {type: GraphQLID},
-    name: {type: GraphQLString},
+    _id: { type: GraphQLID },
+    name: { type: GraphQLString },
     country: {
       type: CountryType,
       resolve(parent, args) {
@@ -107,39 +107,39 @@ const AgencyType = new GraphQLObjectType( {
         reqTracker.addEntry('country');
         console.log('country in agency def', [parent._id]);
         return pool
-        .query('SELECT * FROM country WHERE _id = $1;', [parent._id])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'agency');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM country WHERE _id = $1;', [parent._id])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'agency');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     }
   })
 });
 
-const CountryType = new GraphQLObjectType( {
+const CountryType = new GraphQLObjectType({
   name: 'country',
   fields: () => ({
-    _id: {type: GraphQLID},
-    name: {type: GraphQLString}
+    _id: { type: GraphQLID },
+    name: { type: GraphQLString }
   })
 });
 
-const PlanetType = new GraphQLObjectType( {
+const PlanetType = new GraphQLObjectType({
   name: 'planet',
   fields: () => ({
-    _id: {type: GraphQLID},
-    name: {type: GraphQLString},
-    type: {type: GraphQLString}
+    _id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    type: { type: GraphQLString }
   })
 });
 
-const EngineType = new GraphQLObjectType( {
+const EngineType = new GraphQLObjectType({
   name: 'engine',
   fields: () => ({
-    _id: {type: GraphQLID},
-    name: {type: GraphQLString}
+    _id: { type: GraphQLID },
+    name: { type: GraphQLString }
   })
 });
 
@@ -150,82 +150,82 @@ const RootQuery = new GraphQLObjectType({
     // don't need to wrap in a function because we don't need to worry about the order
     spacecraft: {
       type: SpacecraftType,
-      args: {_id: {type: GraphQLID}},
+      args: { _id: { type: GraphQLID } },
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('spacecraft');
         console.log('spacecraft in root', parseInt(args._id));
         return pool
-        .query('SELECT * FROM spacecraft WHERE _id = $1;', [parseInt(args._id)])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'spacecraft');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM spacecraft WHERE _id = $1;', [parseInt(args._id)])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'spacecraft');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
     agency: {
       type: AgencyType,
-      args: {_id: {type: GraphQLID}},
+      args: { _id: { type: GraphQLID } },
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('agency');
         console.log('agency in root', parseInt(args._id));
         return pool
-        .query('SELECT * FROM agency WHERE _id = $1;', [parseInt(args._id)])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'agency');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM agency WHERE _id = $1;', [parseInt(args._id)])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'agency');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
     country: {
       type: CountryType,
-      args: {_id: {type: GraphQLID}},
+      args: { _id: { type: GraphQLID } },
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('country');
         console.log('country in root', parseInt(args._id));
         return pool
-        .query('SELECT * FROM country WHERE _id = $1;', [parseInt(args._id)])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'country');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM country WHERE _id = $1;', [parseInt(args._id)])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'country');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
     planet: {
       type: PlanetType,
-      args: {_id: {type: GraphQLID}},
+      args: { _id: { type: GraphQLID } },
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('planet');
         console.log('planet in root', parseInt(args._id));
         return pool
-        .query('SELECT * FROM planet WHERE _id = $1;', [parseInt(args._id)])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'planet');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM planet WHERE _id = $1;', [parseInt(args._id)])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'planet');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     },
     engine: {
       type: EngineType,
-      args: {_id: {type: GraphQLID}},
+      args: { _id: { type: GraphQLID } },
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('engine');
         console.log('engine in root', parseInt(args._id));
         return pool
-        .query('SELECT * FROM engine WHERE _id = $1;', [parseInt(args._id)])
-        .then(data => {
-          reqTracker.pgPost(parent, args, 'engine');
-          return data.rows[0];
-        })
-        .catch(e => console.log(`error: ${e}`));
+          .query('SELECT * FROM engine WHERE _id = $1;', [parseInt(args._id)])
+          .then(data => {
+            reqTracker.pgPost(parent, args, 'engine');
+            return data.rows[0];
+          })
+          .catch(e => console.log(`error: ${e}`));
       }
     }
   }
