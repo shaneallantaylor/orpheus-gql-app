@@ -9,6 +9,48 @@ const app = express();
 
 // allow cross-origin requests
 app.use(cors());
+const orpheus = ({ document, variables, operationName, result, context }) => {
+  // lets get nesting depth
+  // were going to grab the height of the tree we're traversing
+  const runTimeResult = Date.now() - context.startTime;
+  let nestingDepth = 0;
+  let dataPoints = 0
+  let resolverCounts = {
+    'spacecraft': 1,
+    'country': 1,
+    'engine': 1
+  };
+
+
+
+  function calcNestingDepthAndDataPoints(data, h = 0) {
+    if (h > nestingDepth) {
+      nestingDepth = h
+    }
+
+    let keys = Object.keys(data)
+
+    keys.forEach((element) => {
+
+      if (typeof data[element] === 'object') {
+
+        calcNestingDepthAndDataPoints(data[element], h + 1)
+      } else {
+        console.log('we finally hit a scalar value', data[element]);
+        dataPoints += 1
+      }
+    })
+  }
+  calcNestingDepthAndDataPoints(result);
+
+
+  return {
+    runTime: runTimeResult,
+    nestingDepth,
+    dataPoints,
+    resolverCounts,
+  }
+}
 
 // when someone goes to below route, express will look and see that you want to interact with graphQL. the control of this request will be hand-offed to the middleware. (graphqlHTTP)
 // need a schema to be created and passed into middleware function; to describe how the data on our graph will look
@@ -16,13 +58,8 @@ app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true, // set this to be true so we can use graphiql on our local host
   pretty: false,
-  context: { shane: true },
-  extensions: (function ({ document, variables, operationName, result, context }) {
-    console.log('WE GOT AN EXTENSION');
-    console.log('============== Document IS', document);
-    // console.log('++++++++++++ Context is', context);
-
-  })
+  // context: { startTime: Date.now() },
+  extensions: orpheus
 }));
 
 app.get('/resolvers', (req, res) => { res.json(resolverCounter) })
@@ -43,6 +80,6 @@ let netStats = new NetworkConstructor()
 //   console.log('this is the resolver counter', reqTracker)
 // }, 10000);
 
-app.listen(3500, () => {
+app.listen(3030, () => {
   console.log('now listening for requests on port 3500')
 });

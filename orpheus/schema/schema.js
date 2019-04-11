@@ -35,7 +35,7 @@ const SpacecraftType = new GraphQLObjectType({
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('country');
-        console.log('country in spacecraft def', [parent._id]);
+        // console.log('country in spacecraft def', [parent._id]);
         return pool
           .query('SELECT * FROM country WHERE _id = $1;', [parent._id])
           .then(data => {
@@ -154,7 +154,7 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('spacecraft');
-        console.log('spacecraft in root', parseInt(args._id));
+        // console.log('spacecraft in root', parseInt(args._id));
         return pool
           .query('SELECT * FROM spacecraft WHERE _id = $1;', [parseInt(args._id)])
           .then(data => {
@@ -170,7 +170,7 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         reqTracker.pgPre(parent, args);
         reqTracker.addEntry('agency');
-        console.log('agency in root', parseInt(args._id));
+        // console.log('agency in root', parseInt(args._id));
         return pool
           .query('SELECT * FROM agency WHERE _id = $1;', [parseInt(args._id)])
           .then(data => {
