@@ -3,10 +3,14 @@ const CLIENT_DIR = path.resolve(__dirname, './client'); // created to seperate w
 
 module.exports = {
   mode: 'development',
+  devtool: "inline-source-map",
   entry: ['babel-polyfill', path.resolve('./client', 'index.js')],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"]
   },
 
   module: {
@@ -33,6 +37,7 @@ module.exports = {
           'sass-loader'
         ]
       },
+      { test: /\.tsx?$/, loader: "ts-loader" }
     ]
   },
   devServer: {

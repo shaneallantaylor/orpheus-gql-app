@@ -11,6 +11,7 @@ import QueryContainer from './containers/QueryContainer.jsx'
 import ResultsContainer from './containers/ResultsContainer.jsx';
 import ResultItemVis from './components/ResultItemVis.jsx';
 
+
 const mapStateToProps = (store) => ({
   codeInput: store.app.codeInput,
   dataVis: store.app.dataVis,
@@ -24,8 +25,8 @@ const App = props => {
       <Header />
       <div id="content">
         <QueryContainer />
-        <ResultItemVis 
-        dataVis={props.dataVis} />
+        <ResultItemVis
+          dataVis={props.dataVis} />
         <ResultsContainer />
       </div>
     </React.Fragment>

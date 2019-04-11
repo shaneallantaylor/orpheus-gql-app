@@ -12,8 +12,8 @@ const initialState = {
     resolverNum: null,
     resolverNames: [],
 
-    results:{},
-    visObj:{}
+    results: {},
+    visObj: {}
   },
   networkLatency: null,
 }
