@@ -4,7 +4,7 @@ const schema = require('./schema/schema');
 const cors = require('cors');
 const NetworkConstructor = require('./orpheus/ping')
 const reqTracker = require('./orpheus/trackResolver')
-
+const port = 3500;
 const app = express();
 
 // allow cross-origin requests
@@ -15,11 +15,7 @@ const orpheus = ({ document, variables, operationName, result, context }) => {
   const runTimeResult = Date.now() - context.startTime;
   let nestingDepth = 0;
   let dataPoints = 0
-  let resolverCounts = {
-    'spacecraft': 1,
-    'country': 1,
-    'engine': 1
-  };
+  let resolverCounts = {};
 
 
 
@@ -30,13 +26,22 @@ const orpheus = ({ document, variables, operationName, result, context }) => {
 
     let keys = Object.keys(data)
 
-    keys.forEach((element) => {
+    keys.forEach((element, idx) => {
 
       if (typeof data[element] === 'object') {
+        if (element !== 'data') {
+          // check resolver counts object for element
+
+          if (resolverCounts[element] !== 'undefined') {
+            resolverCounts[element] = 1;
+          } else {
+            resolverCounts[element] += 1;
+          }
+
+        }
 
         calcNestingDepthAndDataPoints(data[element], h + 1)
       } else {
-        console.log('we finally hit a scalar value', data[element]);
         dataPoints += 1
       }
     })
@@ -58,7 +63,7 @@ app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true, // set this to be true so we can use graphiql on our local host
   pretty: false,
-  // context: { startTime: Date.now() },
+  context: { startTime: Date.now() },
   extensions: orpheus
 }));
 
@@ -80,6 +85,6 @@ let netStats = new NetworkConstructor()
 //   console.log('this is the resolver counter', reqTracker)
 // }, 10000);
 
-app.listen(3030, () => {
-  console.log('now listening for requests on port 3500')
+app.listen(port, () => {
+  console.log(`now listening for requests on port ${port}`)
 });
