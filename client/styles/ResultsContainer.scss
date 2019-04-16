@@ -18,7 +18,7 @@
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    border-bottom: 10px solid $primary-color;
+    // border-bottom: 10px solid $primary-color;
     background: $background-color;
 
     h2 {
@@ -26,6 +26,11 @@
       font-style: italic;
       color: #ff686b;
       text-align: center;
+
+      &.donger {
+        font-weight: bold;
+        font-size: 3rem;
+      }
     }
   }
 

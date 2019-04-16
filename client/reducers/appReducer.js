@@ -27,20 +27,24 @@ const appReducer = (state = initialState, action) => {
         ...state,
         codeInput: action.payload
       }
-    
+
     case types.UPDATE_CODE_HISTORY:
       let codeHistory = [...state.codeHistory];
       let code = action.payload;
-      if(codeHistory.indexOf(code) === -1) {
+      if (codeHistory.indexOf(code) === -1) {
         codeHistory.unshift(code)
       }
       return {
         ...state,
         codeHistory
       }
-    
+
     case types.TOGGLE_CODE_HISTORY:
-      let showHistory = !state.showHistory
+      let showHistory = state.showHistory;
+      if (state.codeHistory.length) {
+        showHistory = !state.showHistory
+      }
+
       return {
         ...state,
         showHistory

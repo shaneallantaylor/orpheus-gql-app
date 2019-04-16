@@ -19,11 +19,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: 4px 4px;
+  padding: 4px;
+  margin: 0;
   cursor: pointer;
   font-weight: 200;
-  border-bottom: 1px solid rgb(0, 200, 200);
+  border-bottom: 2px solid rgb(0, 200, 200);
   &:hover{
-    background: rgb(233, 42, 233)
+    background: rgba(244, 169, 169, 0.27);
   }
 }

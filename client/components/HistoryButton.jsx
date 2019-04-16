@@ -5,7 +5,7 @@ const HistoryButton = props => {
 
 
   return (
-    <button className="history-button" onClick={props.toggleCodeHistory}>History</button>
+    <button className="history" onClick={props.toggleCodeHistory}>History</button>
   )
 }
 

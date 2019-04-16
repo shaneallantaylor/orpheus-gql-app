@@ -1,18 +1,6 @@
 @import 'variables';
+@import 'Button.scss';
 
-.history-button {
-  border: 1px solid black;
-  color: #fff;
-  padding: 8px;
-  font-family: sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  background: $primary-color;
-  transition: box-shadow 0.5s ease;
+.history {
   align-self: flex-end;
-}
-
-.history-button:focus {
-  outline: none;
-  box-shadow: 0px 17px 10px -10px rgba(57,95,114,0.4);
 }
